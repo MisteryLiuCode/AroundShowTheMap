@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Map Punctuation Tool</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <style type="text/css">
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+        }
+
+        .color-bar {
+            width: 100px; /* 颜色条的宽度 */
+            height: 5px; /* 颜色条的高度 */
+            position: absolute;
+            right: 30px; /* 距离右侧的距离 */
+            display: flex; /* 使用flex布局使元素水平排列 */
+            margin-right: 5px;
+        }
+
+        .food {
+            background-color: yellow;
+            top: 20px; /* 距离顶部的距离 */
+        }
+
+        .supermarket {
+            background-color: blue;
+            top: 50px; /* 距离顶部的距离 */
+        }
+
+        .school {
+            background-color: pink;
+            top: 90px; /* 距离顶部的距离 */
+        }
+
+        .label {
+            font-size: 14px;
+            /*white-space: nowrap; !* 避免文字换行 *!*/
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        #panel {
+            position: absolute;
+            top: 30px;
+            left: 10px;
+            z-index: 999;
+            color: #fff;
+        }
+
+        #login {
+            position: absolute;
+            width: 300px;
+            height: 40px;
+            left: 50%;
+            top: 50%;
+            margin: -40px 0 0 -150px;
+        }
+
+        #login input[type=password] {
+            width: 200px;
+            height: 30px;
+            padding: 3px;
+            line-height: 30px;
+            border: 1px solid #000;
+        }
+
+        #login input[type=submit] {
+            width: 80px;
+            height: 38px;
+            display: inline-block;
+            line-height: 38px;
+        }
+    </style>
+    <script type="text/javascript"
+            src="http://api.map.baidu.com/api?v=2.0&ak=nm3ekA0dGctqFE2dCs2fr5oZ89hRJrFB"></script>
+    <script type="text/javascript" src="http://lbsyun.baidu.com/jsdemo/data/points-sample-data.js"></script>
+    <script type="text/javascript"
+            src="https://misteryliu.oss-cn-beijing.aliyuncs.com/file/convertor_offline.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+<div id="map">
+    <div class="color-bar food">
+        <span class="label">美食</span>
+    </div>
+    <div class="color-bar supermarket">
+        <span class="label">超市</span>
+    </div>
+    <div class="color-bar school">
+        <span class="label">学校</span>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var foodPath = "[[${foodPath}]]";
+    var centerLon =[[${centerLon}]];
+    var centerLat =[[${centerLat}]];
+    var map = new BMap.Map("map", {});                        // Map
+    map.centerAndZoom(new BMap.Point(centerLon,centerLat), 12);     // ,
+    map.enableScrollWheelZoom();
+    $.ajax({
+        type: "get",
+        url: foodPath,
+        dataType: "json",
+        success: function (data) {
+            var points = [];
+            data.forEach(item => {
+                // 直接使用 item.lng 和 item.lat
+                points.push(wgs2bd(new BMap.Point(item.lng, item.lat)));
+            });
+            if (document.createElement('canvas').getContext) {
+                var options = {
+                    size: BMAP_POINT_SIZE_SMALL,
+                    shape: BMAP_POINT_SHAPE_CIRCLE,
+                    color: '#ff0000'
+                };
+                var pointCollection = new BMap.PointCollection(points, options);
+                pointCollection.addEventListener('click', function (e) {
+                    alert('The coordinate here is ' + e.point.lng + ',' + e.point.lat);
+                });
+                map.addOverlay(pointCollection);
+            } else {
+                alert('Your browser does not support drawing coordinate points!');
+            }
+        },
+        error: function (xhr, status, error) {
+            // 处理错误情况
+            console.error("Error: " + status + " " + error);
+        }
+    });
+</script>
+</body>
+
+</html>
