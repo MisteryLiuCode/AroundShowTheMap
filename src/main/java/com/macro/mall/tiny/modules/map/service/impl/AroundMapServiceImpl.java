@@ -53,7 +53,6 @@ public class AroundMapServiceImpl implements AroundMapService {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String folderName = dateFormat.format(new Date());
                 String basePath = "/Users/liushuaibiao/Documents/aroundMap/data/";
-//        String basePath = "/Users/misteryliu/Documents/AroundShowTheMap/src/main/resources/static/";
         String centerLocation = String.format("%.3f,%.3f", Double.valueOf(aroundMapDTO.getLatitude()), Double.valueOf(aroundMapDTO.getLongitude()));
 
         if (CollectionUtils.isNotEmpty(aroundMapDTO.getFoodKeys())) {
@@ -125,6 +124,8 @@ public class AroundMapServiceImpl implements AroundMapService {
         catch (Exception e) {
             log.error("上传文件到oss失败", e);
             throw new RuntimeException("上传文件到oss失败", e);
+        }finally {
+            // 删除文件
         }
         // 保存文件信息到数据库
         boolean saveSuccess = saveMapFileDO(randomFileNameId, fileName, ossPath, busTypeEnum.getCode(), centerLocation);
@@ -141,7 +142,7 @@ public class AroundMapServiceImpl implements AroundMapService {
         mapFileDO.setFileId(randomFileNameId);
         mapFileDO.setUserId(1);
         mapFileDO.setFileName(fileName);
-        mapFileDO.setPath(ossPath);
+        mapFileDO.setPath("https://"+ossPath);
         mapFileDO.setCenterLocation(centerLocation);
         mapFileDO.setBusType(busType);
         mapFileDO.setStatus(StatusEnum.ENABLE.getCode());
