@@ -54,7 +54,7 @@ public class AroundMapServiceImpl implements AroundMapService {
         String folderName = dateFormat.format(new Date());
                 String basePath = "/Users/liushuaibiao/Documents/aroundMap/data/";
 //        String basePath = "/Users/misteryliu/Documents/AroundShowTheMap/src/main/resources/static/";
-        String centerLocation = String.format("%.3f,%.3f", Double.valueOf(aroundMapDTO.getLongitude()), Double.valueOf(aroundMapDTO.getLatitude()));
+        String centerLocation = String.format("%.3f,%.3f", Double.valueOf(aroundMapDTO.getLatitude()), Double.valueOf(aroundMapDTO.getLongitude()));
 
         if (CollectionUtils.isNotEmpty(aroundMapDTO.getFoodKeys())) {
             processData(BusTypeEnum.FOOD, randomFileNameId, folderName, basePath, aroundMapDTO.getFoodKeys(),
@@ -135,6 +135,7 @@ public class AroundMapServiceImpl implements AroundMapService {
 
     private boolean saveMapFileDO(String randomFileNameId, String fileName, String ossPath, Integer busType,
             String centerLocation) {
+
         // 将数据存入数据库
         MapFileDO mapFileDO = new MapFileDO();
         mapFileDO.setFileId(randomFileNameId);
@@ -172,8 +173,8 @@ public class AroundMapServiceImpl implements AroundMapService {
             String centerLocation = mapFileDOS.get(0).getCenterLocation();
             // 以逗号分隔
             String[] centerLocationArr = centerLocation.split(",");
-            modelAndView.addObject("centerLon", Double.valueOf(centerLocationArr[0]));
-            modelAndView.addObject("centerLat", Double.valueOf(centerLocationArr[1]));
+            modelAndView.addObject("centerLat", Double.valueOf(centerLocationArr[0]));
+            modelAndView.addObject("centerLon", Double.valueOf(centerLocationArr[1]));
             mapFileDOS.forEach(mapFileDO -> addPathToModel(modelAndView, mapFileDO));
             modelAndView.setViewName("index");
         }
