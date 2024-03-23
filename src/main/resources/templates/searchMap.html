@@ -65,6 +65,20 @@
             width: auto; /* Set width to auto to fit the content */
         }
 
+        .shop-options {
+            position: absolute;
+            top: 180px; /* Adjust top position to place it below the input-wrapper */
+            left: 0; /* Align left */
+            transform: none; /* Remove transform */
+            z-index: 1000;
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            text-align: left; /* Align text to the left */
+            width: auto; /* Set width to auto to fit the content */
+        }
+
         .submit-button-wrapper {
             text-align: right; /* 使按钮靠右对齐 */
             padding-top: 150px; /* 与上方元素的间隔 */
@@ -169,7 +183,7 @@
     <label><input type="checkbox" name="food" value="菜市场">菜市场</label>
 </div>
 
-<div class="shop-options"> 学校
+<div class="school-options"> 学校
     <label><input type="checkbox" name="food" value="幼儿园">幼儿园</label>
     <label><input type="checkbox" name="food" value="学前班">学前班</label>
     <label><input type="checkbox" name="food" value="小学">小学</label>
