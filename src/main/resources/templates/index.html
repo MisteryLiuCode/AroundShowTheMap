@@ -171,6 +171,39 @@
             console.error("Error: " + status + " " + error);
         }
     });
+
+
+    var schoolPath = "[[${schoolPath}]]";
+    $.ajax({
+        type: "get",
+        url: shopPath,
+        dataType: "json",
+        success: function (data) {
+            var points = [];
+            data.forEach(item => {
+                // 直接使用 item.lng 和 item.lat
+                points.push(wgs2bd(new BMap.Point(item.lng, item.lat)));
+            });
+            if (document.createElement('canvas').getContext) {
+                var options = {
+                    size: BMAP_POINT_SIZE_SMALL,
+                    shape: BMAP_POINT_SHAPE_CIRCLE,
+                    color: '#DC143C'
+                };
+                var pointCollection = new BMap.PointCollection(points, options);
+                pointCollection.addEventListener('click', function (e) {
+                    alert('The coordinate here is ' + e.point.lng + ',' + e.point.lat);
+                });
+                map.addOverlay(pointCollection);
+            } else {
+                alert('Your browser does not support drawing coordinate points!');
+            }
+        },
+        error: function (xhr, status, error) {
+            // 处理错误情况
+            console.error("Error: " + status + " " + error);
+        }
+    });
 </script>
 </body>
 
