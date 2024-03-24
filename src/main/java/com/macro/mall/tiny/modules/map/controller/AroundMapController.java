@@ -46,12 +46,12 @@ public class AroundMapController {
     public CommonResult<String> around(@RequestBody @Valid AroundMapDTO aroundMapDTO) {
         // 打印参数
         log.info("开始获取周围地图, aroundMapDTO:{}", aroundMapDTO);
-        String url = aroundMapService.getAround(aroundMapDTO);
+        String res = aroundMapService.getAround(aroundMapDTO);
 
-        if (StringUtils.isNotBlank(url)) {
-            return CommonResult.success(url);
+        if (StringUtils.isNotBlank(res)) {
+            return CommonResult.success(res);
         } else {
-            return CommonResult.failed();
+            return CommonResult.validateFailed(res);
         }
     }
 

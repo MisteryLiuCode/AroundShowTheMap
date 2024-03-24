@@ -12,7 +12,6 @@ public class AroundMapDTO {
     /**
      * 美食搜索关键词
      */
-    @NotEmpty
     @ApiModelProperty(value = "美食搜索关键词")
     private List<String> foodKeys;
 

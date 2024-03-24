@@ -4,6 +4,7 @@ import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.macro.mall.tiny.common.enums.BusTypeEnum;
 import com.macro.mall.tiny.common.enums.DeletedStatusEnum;
 import com.macro.mall.tiny.common.enums.FoodEnum;
@@ -48,11 +49,16 @@ public class AroundMapServiceImpl implements AroundMapService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public String getAround(AroundMapDTO aroundMapDTO) {
+        // 校验参数
+        Boolean vaild = CollectionUtils.isEmpty(aroundMapDTO.getSchoolKeys()) && CollectionUtils.isEmpty(aroundMapDTO.getFoodKeys()) && CollectionUtils.isEmpty(aroundMapDTO.getShopKeys()) && CollectionUtils.isEmpty(aroundMapDTO.getCustomKeys());
+        if (vaild) {
+            return  "参数错误";
+        }
         // 初始化基本路径和文件名信息
         String randomFileNameId = UUID.randomUUID().toString();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String folderName = dateFormat.format(new Date());
-                String basePath = "/Users/liushuaibiao/Documents/aroundMap/data/";
+        String basePath = "/Users/liushuaibiao/Documents/aroundMap/data/";
         String centerLocation = String.format("%.3f,%.3f", Double.valueOf(aroundMapDTO.getLatitude()), Double.valueOf(aroundMapDTO.getLongitude()));
 
         if (CollectionUtils.isNotEmpty(aroundMapDTO.getFoodKeys())) {
@@ -77,7 +83,7 @@ public class AroundMapServiceImpl implements AroundMapService {
     }
 
     private void processData(BusTypeEnum busTypeEnum, String randomFileNameId, String folderName, String basePath,
-            List<String> keys, String centerLocation) {
+                             List<String> keys, String centerLocation) {
         String fileName = folderName + "/" + randomFileNameId + busTypeEnum.getText() + ".json";
         String originalPath = basePath + fileName;
         // 创建文件
@@ -111,8 +117,7 @@ public class AroundMapServiceImpl implements AroundMapService {
             }
             // 写入文件
             writer.write(jsonArray.toJSONString());
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             log.error("数据写入失败", e);
             throw new RuntimeException("数据写入失败", e);
         }
@@ -120,11 +125,10 @@ public class AroundMapServiceImpl implements AroundMapService {
         try {
             ossPath = ossUnity.upload("file/" + fileName, file);
             System.out.println("上传文件到oss成功，ossPath：" + ossPath);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("上传文件到oss失败", e);
             throw new RuntimeException("上传文件到oss失败", e);
-        }finally {
+        } finally {
             // 删除文件
         }
         // 保存文件信息到数据库
@@ -135,14 +139,14 @@ public class AroundMapServiceImpl implements AroundMapService {
     }
 
     private boolean saveMapFileDO(String randomFileNameId, String fileName, String ossPath, Integer busType,
-            String centerLocation) {
+                                  String centerLocation) {
 
         // 将数据存入数据库
         MapFileDO mapFileDO = new MapFileDO();
         mapFileDO.setFileId(randomFileNameId);
         mapFileDO.setUserId(1);
         mapFileDO.setFileName(fileName);
-        mapFileDO.setPath("https://"+ossPath);
+        mapFileDO.setPath("https://" + ossPath);
         mapFileDO.setCenterLocation(centerLocation);
         mapFileDO.setBusType(busType);
         mapFileDO.setStatus(StatusEnum.ENABLE.getCode());
@@ -178,8 +182,7 @@ public class AroundMapServiceImpl implements AroundMapService {
             modelAndView.addObject("centerLon", Double.valueOf(centerLocationArr[1]));
             mapFileDOS.forEach(mapFileDO -> addPathToModel(modelAndView, mapFileDO));
             modelAndView.setViewName("index");
-        }
-        else {
+        } else {
             modelAndView.setViewName("404"); // 如果列表为空，显示404页面
         }
 
@@ -224,16 +227,13 @@ public class AroundMapServiceImpl implements AroundMapService {
                 boolean created = file.createNewFile();
                 if (created) {
                     System.out.println("File created: " + file.getAbsolutePath());
-                }
-                else {
+                } else {
                     System.out.println("File already exists or failed to create: " + file.getAbsolutePath());
                 }
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        else {
+        } else {
             System.out.println("File already exists, skipping creation: " + file.getAbsolutePath());
         }
         return file;
