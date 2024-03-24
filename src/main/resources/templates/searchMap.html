@@ -260,11 +260,13 @@
         // 收集选中的复选框的值
         var selectedFoods = Array.from(document.querySelectorAll('.food-options input[type="checkbox"]:checked')).map(cb => cb.value);
         var selectedShops = Array.from(document.querySelectorAll('.shop-options input[type="checkbox"]:checked')).map(cb => cb.value);
+        var selectedSchools = Array.from(document.querySelectorAll('.school-options input[type="checkbox"]:checked')).map(cb => cb.value);
 
         // 组装数据
         var data = {
             foodKeys: selectedFoods,
             shopKeys: selectedShops,
+            schoolKeys: selectedSchools,
             longitude: pp.lng,
             latitude: pp.lat,
         };
