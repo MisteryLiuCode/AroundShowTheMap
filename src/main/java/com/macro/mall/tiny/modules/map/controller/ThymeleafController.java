@@ -9,7 +9,7 @@ import java.util.LinkedList;
 @Controller
 public class ThymeleafController {
 
-    @GetMapping("/getPage")
+    @GetMapping("/")
     public ModelAndView getStudent(){
 
         ModelAndView modelAndView = new ModelAndView();

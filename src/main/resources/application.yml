@@ -62,7 +62,7 @@ secure:
       - /admin/logout
       - /map/**
       - /getMap/**
-      - /getPage
+      - /
 logging:
   level:
     org:
