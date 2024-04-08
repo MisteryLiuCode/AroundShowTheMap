@@ -89,9 +89,16 @@ public class AroundMapServiceImpl implements AroundMapService {
         // 创建文件
         File file = createFile(originalPath);
         String ossPath;
-
-        // 组装搜索参数
-        String searchParams = String.join(",", keys);
+        String searchParams;
+        if (BusTypeEnum.FOOD.equals(busTypeEnum) && keys.contains("all")){
+            searchParams = "附近美食,小吃快餐,中餐馆,自助餐,火锅,烧烤,奶茶,早餐,咖啡厅,面馆";
+        } else if (BusTypeEnum.SHOP.equals(busTypeEnum) && keys.contains("all")){
+            searchParams = "购物中心,商场,超市,便利店,小卖部,菜市场";
+        }
+        else {
+            // 组装搜索参数
+            searchParams = String.join(",", keys);
+        }
         // 搜索结果放入json
         JSONArray jsonArray = new JSONArray();
 
