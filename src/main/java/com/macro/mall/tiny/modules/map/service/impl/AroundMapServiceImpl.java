@@ -29,6 +29,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -104,6 +105,7 @@ public class AroundMapServiceImpl implements AroundMapService {
 
         try (FileWriter writer = new FileWriter(originalPath)) {
             String firstUrl = searchUrl + searchParams + "&location=" + centerLocation + "&radius=5000&output=json&ak=d6KFBCpxKoA7Y1i3JCOpBMmsPq4lm7tI&page_num=1&page_size=20";
+            log.info("firstUrl:{}", firstUrl);
             String firstResp = HttpUtil.createGet(firstUrl).execute().body();
             CircleLocationDTO firstLocation = JSONObject.parseObject(firstResp, CircleLocationDTO.class);
             // 总页数
