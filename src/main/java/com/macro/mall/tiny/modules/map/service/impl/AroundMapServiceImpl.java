@@ -95,10 +95,10 @@ public class AroundMapServiceImpl implements AroundMapService {
         String industry_type = "";
         if (BusTypeEnum.FOOD.equals(busTypeEnum) && keys.contains("all")) {
             searchParams = "美食,附近美食,快餐";
-//            tag = "中餐厅,外国餐厅,小吃快餐店,咖啡厅";
+            tag = "美食";
             industry_type = "cater";
         } else if (BusTypeEnum.SHOP.equals(busTypeEnum) && keys.contains("all")) {
-            searchParams = "购物中心,商场,超市,便利店,小卖部,菜市场";
+            searchParams = "购物";
 //            tag = "购物中心,百货商场,超市,便利店,家居建材,家电数码,商铺,市场,其他";
             industry_type = "life";
         } else {
@@ -107,7 +107,7 @@ public class AroundMapServiceImpl implements AroundMapService {
         }
         // 搜索结果放入json
         JSONArray jsonArray = new JSONArray();
-//        tag = "".equals(tag) ? "" : "&tag="+tag;
+        tag = "".equals(tag) ? "" : "&tag="+tag;
         industry_type = "".equals(industry_type) ? "" : "&industry_type="+industry_type;
         try (FileWriter writer = new FileWriter(originalPath)) {
             String firstUrl = searchUrl + searchParams + "&location=" + centerLocation + "&radius=2000&output=json&ak=d6KFBCpxKoA7Y1i3JCOpBMmsPq4lm7tI&page_num=1&page_size=20&scope=2" + tag + industry_type+"&filter=sort_name:distance|sort_rule:1";
