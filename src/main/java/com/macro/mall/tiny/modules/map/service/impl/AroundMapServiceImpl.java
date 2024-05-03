@@ -117,7 +117,7 @@ public class AroundMapServiceImpl implements AroundMapService {
             // 总页数
             int pageNum = firstLocation.getTotal() / 20;
             for (int i = 0; i < pageNum; i++) {
-                String url = searchUrl + searchParams + "&location=" + centerLocation + "&radius=5000&output=json&ak=d6KFBCpxKoA7Y1i3JCOpBMmsPq4lm7tI&page_num=" + i + "&page_size=20";
+                String url = searchUrl + searchParams + "&location=" + centerLocation + "&radius=5000&output=json&ak=d6KFBCpxKoA7Y1i3JCOpBMmsPq4lm7tI&page_num=" + i + "&page_size=20&scope=2" + tag + industry_type+"&filter=sort_name:distance|sort_rule:1";
                 String res = HttpUtil.createGet(url).execute().body();
                 CircleLocationDTO circleLocation = JSONObject.parseObject(res, CircleLocationDTO.class);
                 List<Results> results = circleLocation.getResults();
