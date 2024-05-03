@@ -92,7 +92,7 @@ public class AroundMapServiceImpl implements AroundMapService {
         String ossPath;
         String searchParams;
         if (BusTypeEnum.FOOD.equals(busTypeEnum) && keys.contains("all")) {
-            searchParams = "美食";
+            searchParams = "美食,附近美食,快餐";
         } else if (BusTypeEnum.SHOP.equals(busTypeEnum) && keys.contains("all")) {
             searchParams = "购物中心,商场,超市,便利店,小卖部,菜市场";
         } else {
