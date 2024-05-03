@@ -95,11 +95,11 @@ public class AroundMapServiceImpl implements AroundMapService {
         String industry_type = "";
         if (BusTypeEnum.FOOD.equals(busTypeEnum) && keys.contains("all")) {
             searchParams = "美食,附近美食,快餐";
-            tag = "美食";
+//            tag = "美食";
             industry_type = "cater";
         } else if (BusTypeEnum.SHOP.equals(busTypeEnum) && keys.contains("all")) {
             searchParams = "购物";
-//            tag = "购物中心,百货商场,超市,便利店,家居建材,家电数码,商铺,市场,其他";
+            tag = "购物中心、百货商场、超市、便利店";
             industry_type = "life";
         } else {
             // 组装搜索参数
