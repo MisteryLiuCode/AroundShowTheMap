@@ -110,7 +110,7 @@ public class AroundMapServiceImpl implements AroundMapService {
 //        tag = "".equals(tag) ? "" : "&tag="+tag;
         industry_type = "".equals(industry_type) ? "" : "&industry_type="+industry_type;
         try (FileWriter writer = new FileWriter(originalPath)) {
-            String firstUrl = searchUrl + searchParams + "&location=" + centerLocation + "&radius=5000&output=json&ak=d6KFBCpxKoA7Y1i3JCOpBMmsPq4lm7tI&page_num=1&page_size=20&scope=2" + tag + industry_type+"&filter=sort_name:distance|sort_rule:1";
+            String firstUrl = searchUrl + searchParams + "&location=" + centerLocation + "&radius=2000&output=json&ak=d6KFBCpxKoA7Y1i3JCOpBMmsPq4lm7tI&page_num=1&page_size=20&scope=2" + tag + industry_type+"&filter=sort_name:distance|sort_rule:1";
             log.info("firstUrl:{}", firstUrl);
             String firstResp = HttpUtil.createGet(firstUrl).execute().body();
             CircleLocationDTO firstLocation = JSONObject.parseObject(firstResp, CircleLocationDTO.class);
