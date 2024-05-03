@@ -94,7 +94,7 @@ public class AroundMapServiceImpl implements AroundMapService {
         String tag ="";
         String industry_type = "";
         if (BusTypeEnum.FOOD.equals(busTypeEnum) && keys.contains("all")) {
-            searchParams = "美食,附近美食,快餐";
+            searchParams = "美食,附近美食";
 //            tag = "美食";
             industry_type = "cater";
         } else if (BusTypeEnum.SHOP.equals(busTypeEnum) && keys.contains("all")) {
